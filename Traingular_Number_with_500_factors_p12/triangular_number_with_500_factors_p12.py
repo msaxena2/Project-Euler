@@ -51,7 +51,7 @@ def fact_count(num):
     return factor_num
 
 
-start = 2
+start = 10000
 while(True):
     t_num = (start*(start+1)) / 2
     fact = fact_count(t_num)
