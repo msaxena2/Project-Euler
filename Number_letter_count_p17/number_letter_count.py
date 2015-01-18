@@ -1,7 +1,13 @@
 __author__ = 'manasvi'
+"""
+If the numbers 1 to 5 are written out in words: one, two, three, four, five, then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.
+
+If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words, how many letters would be used?
+"""
 
 def get_word(n):
-    ones = {1 : "one",
+    ones = {0 : "",
+            1 : "one",
             2 : "two",
             3 : "three",
             4 : "four",
@@ -30,7 +36,8 @@ def get_word(n):
                 80 : "eighty",
                 90 : "ninety",}
 
-    hundreds = {1 : "one hundred",
+    hundreds = {0 : "",
+            1 : "one hundred",
             2 : "two hundred",
             3 : "three hundred",
             4 : "four hundred",
@@ -51,34 +58,44 @@ def get_word(n):
     word = ""
     for i in range(len(nstring) - 1, -1, -1):
         if i > 1:
-            word += word_store[i][int(nstring[i])]
+            word += word_store[i][int(nstring[len(nstring) - i - 1])]
         else:
             if len(nstring) > 2 and nstring[-2:] == "00":
                     return word
-            else:
+            if len(nstring) > 2 and nstring[-2:] != "00":
                 word += " and"
 
             if len(nstring) >= 2:
                 if nstring[-2:] == "00":
                     return word
 
-                if nstring[-2] == "0":
-                    word += " " + word_store[1][int(nstring[-1])]
+                if nstring[-2] == "0" and len(word) > 0:
+                    word += " " + word_store[0][int(nstring[-1])]
                     return word
 
-                if nstring[-2] == "1":
+                if nstring[-2] == "0" and len(word) == 0:
+                    word += word_store[0][int(nstring[-1])]
+                    return word
+
+                if nstring[-2] == "1" and len(word) > 0:
                     word += " " + word_store[1][int(nstring[-2:])]
                     return word
-                word += " " + word_store[1][int(nstring[-2])] + " " + word_store[0][int(nstring[-1])]
+                if nstring[-2] == "1" and len(word) == 0:
+                    word += word_store[1][int(nstring[-2:])]
+                    return word
+                if len(word) > 0:
+                    word += " " + word_store[1][int(nstring[-2]+"0")] + " " + word_store[0][int(nstring[-1])]
+                else:
+                    word += word_store[1][int(nstring[-2]+"0")] + " " + word_store[0][int(nstring[-1])]
 
                 return word
 
             else:
                 return word_store[0][int(nstring[-1])]
 
-
-
-
-
-
-print get_word(101)
+letter_count = 0
+for i in range(1, 1001):
+    word = get_word(i)
+    word = ''.join(word.split())
+    letter_count += len(word)
+print letter_count
