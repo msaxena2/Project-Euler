@@ -1,13 +1,15 @@
 __author__ = 'manasvi'
 
 day_count = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+day_dict = {0: "Sun", 1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat"}
 
 
 def count_sunday_year(day, leap_status):
-
     sunday_count = 0
     for i in range(0, 12):
-        if i != 2:
+        if (day == 0):
+            sunday_count += 1
+        if i != 1:
             day = (day + day_count[i]) % 7
 
         else:
@@ -16,14 +18,11 @@ def count_sunday_year(day, leap_status):
             else:
                 day = (day + day_count[i]) % 7
 
-        if (day == 1):
-            sunday_count += 1
-
     return (sunday_count, day)
 
-init_day = 3
+init_day = 2
 total_count = 0
-for i in range(1901, 1902):
+for i in range(1901, 2001):
     if (i % 100) != 0 and (i % 4) == 0:
         count, init_day = count_sunday_year(init_day, "leap")
     else:
